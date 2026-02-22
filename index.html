@@ -877,9 +877,21 @@ function renderCartSidebar() {
   });
 }
 
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+}
+function openInstagram(url) {
+  url = url || SOCIAL_LINKS.instagram;
+  if (isMobile()) {
+    window.location.href = url;
+  } else {
+    var w = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!w || w.closed) window.location.href = url;
+  }
+}
 function completeOrder() {
   showToast('Sifariş üçün Instagram-da bizə yazın! Yönləndirilirsiniz... 📱', 'info');
-  setTimeout(() => { window.open(SOCIAL_LINKS.instagram, '_blank'); }, 1500);
+  setTimeout(function() { openInstagram(); }, 1200);
 }
 
 function openModal(id) {
@@ -1041,6 +1053,12 @@ document.getElementById('promoBarClose').addEventListener('click', () => {
   try { localStorage.setItem('sayn_promo_closed', '1'); } catch (_) {}
 });
 try { if (localStorage.getItem('sayn_promo_closed')) { document.getElementById('promoBar').classList.add('hidden'); document.body.classList.remove('promo-visible'); } } catch (_) {}
+
+// Mobil: Instagram linklərinə toxunanda etibarlı yönləndirmə
+document.addEventListener('click', function(e) {
+  var a = e.target.closest('a[href*="instagram.com"]');
+  if (a && isMobile()) { e.preventDefault(); openInstagram(a.getAttribute('href')); }
+}, true);
 
 // Init
 renderProducts();
