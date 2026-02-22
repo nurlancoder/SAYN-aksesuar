@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAYN aksesuar — Azərbaycanın trendy aksesuar mağazası</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-card: #16161f;
+      --accent-gold: #d4a843;
+      --accent-gold-light: #f0c860;
+      --accent-teal: #00d4aa;
+      --text-primary: #f5f0e8;
+      --text-secondary: #9b9b9b;
+      --border-subtle: rgba(212, 168, 67, 0.15);
+      --glow-gold: rgba(212, 168, 67, 0.3);
+      --glow-teal: rgba(0, 212, 170, 0.25);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent-gold); border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 99999;
+    }
+    .cursor-ring {
+      width: 35px; height: 35px; border: 1.5px solid var(--accent-gold); border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 99998; transition: all 0.15s ease; opacity: 0.7;
+    }
+    .cursor-ring.hover { transform: scale(1.6); background: rgba(212, 168, 67, 0.1); border-color: var(--accent-gold-light); }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes float-particle {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.7; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    @keyframes toastSlide {
+      from { transform: translateX(120%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes overlayFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes cardStagger {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes sectionReveal {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: 0.9; }
+    }
+    @keyframes shimmerBtn {
+      0% { background-position: -100% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    @keyframes toastProgress {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+    @keyframes cartItemIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem; transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
+    }
+    .navbar.scrolled { background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-subtle); box-shadow: 0 4px 24px rgba(0,0,0,0.2); }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent-gold); letter-spacing: 0.2em; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--text-primary); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent-gold); }
+    .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-actions .icon-btn { position: relative; background: none; border: none; color: var(--text-primary); font-size: 1.25rem; padding: 0.5rem; }
+    .nav-actions .icon-btn:hover { color: var(--accent-gold); }
+    .nav-actions .badge { position: absolute; top: -2px; right: -2px; min-width: 18px; height: 18px; background: var(--accent-teal); color: var(--bg-primary); font-size: 0.7rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+    .hamburger { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; }
+    .nav-links.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(10, 10, 15, 0.98); padding: 1rem; gap: 0.5rem; border-bottom: 1px solid var(--border-subtle); }
+
+    /* Promo bar */
+    .promo-bar { background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light)); color: var(--bg-primary); text-align: center; padding: 0.5rem 2rem; font-size: 0.85rem; font-weight: 500; position: fixed; top: 0; left: 0; right: 0; z-index: 1002; display: flex; align-items: center; justify-content: center; gap: 1rem; }
+    .promo-bar.hidden { display: none; }
+    .promo-bar-close { position: absolute; right: 0.75rem; background: none; border: none; color: var(--bg-primary); font-size: 1.25rem; opacity: 0.8; padding: 0.35rem; min-width: 44px; min-height: 44px; line-height: 1; }
+    .promo-bar-close:hover { opacity: 1; }
+    .hero { padding-top: 70px; }
+    body.promo-visible .navbar { top: 38px; }
+    body.promo-visible .hero { padding-top: 108px; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; background: linear-gradient(180deg, #0a0a0f 0%, #111118 50%, #0a0a0f 100%);
+      overflow: hidden;
+    }
+    .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .hero-particles span { position: absolute; width: 4px; height: 4px; background: var(--accent-gold); border-radius: 50%; animation: float-particle 8s ease-in-out infinite; }
+    .hero-particles span:nth-child(1){ left: 10%; top: 20%; animation-delay: 0s; }
+    .hero-particles span:nth-child(2){ left: 25%; top: 60%; animation-delay: 1s; }
+    .hero-particles span:nth-child(3){ left: 45%; top: 15%; animation-delay: 2s; }
+    .hero-particles span:nth-child(4){ left: 70%; top: 40%; animation-delay: 0.5s; }
+    .hero-particles span:nth-child(5){ left: 85%; top: 70%; animation-delay: 1.5s; }
+    .hero-particles span:nth-child(6){ left: 15%; top: 80%; animation-delay: 2.5s; }
+    .hero-particles span:nth-child(7){ left: 55%; top: 85%; animation-delay: 1s; }
+    .hero-particles span:nth-child(8){ left: 90%; top: 25%; animation-delay: 3s; }
+    .hero-content { position: relative; z-index: 1; text-align: center; }
+    .hero-title { font-size: 7rem; color: var(--accent-gold); background: linear-gradient(90deg, var(--accent-gold) 0%, var(--accent-gold-light) 50%, var(--accent-gold) 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: heroFadeIn 0.9s ease 0s both, shimmer 4s linear 1s infinite; }
+    .hero-subtitle { letter-spacing: 0.4em; text-transform: lowercase; color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem; animation: heroFadeIn 0.8s ease 0.2s both; }
+    .hero-desc { color: var(--text-secondary); margin-top: 1rem; font-size: 1rem; max-width: 400px; margin-left: auto; margin-right: auto; animation: heroFadeIn 0.8s ease 0.4s both; }
+    .hero-btns { margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: heroFadeIn 0.8s ease 0.6s both; }
+    .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease; border: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--accent-teal); color: var(--bg-primary); }
+    .btn-primary:hover { background: #00e6b8; transform: translateY(-3px); box-shadow: 0 8px 28px var(--glow-teal); }
+    .btn-primary:active { transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--accent-gold); border: 1.5px solid var(--accent-gold); }
+    .btn-outline:hover { background: rgba(212, 168, 67, 0.15); transform: translateY(-3px); box-shadow: 0 6px 20px var(--glow-gold); }
+    .btn-outline:active { transform: translateY(-1px); }
+    .hero-arrow { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 1.5rem; color: var(--accent-gold); animation: bounce 2s ease-in-out infinite; }
+
+    /* Products */
+    .section { padding: 4rem 2rem; max-width: 1400px; margin: 0 auto; }
+    .section-title { font-size: 2.5rem; margin-bottom: 2rem; text-align: center; color: var(--text-primary); position: relative; display: inline-block; width: 100%; }
+    .section-title::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: linear-gradient(90deg, transparent, var(--accent-gold), transparent); border-radius: 2px; }
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 2rem; justify-content: space-between; }
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .filter-pills .pill { padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-subtle); background: var(--bg-card); color: var(--text-secondary); font-size: 0.9rem; transition: transform 0.2s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+    .filter-pills .pill:hover { transform: translateY(-2px); background: rgba(212, 168, 67, 0.2); color: var(--accent-gold-light); border-color: var(--accent-gold); }
+    .filter-pills .pill.active { background: var(--accent-gold); color: var(--bg-primary); border-color: var(--accent-gold); box-shadow: 0 4px 16px var(--glow-gold); }
+    .filter-right { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .search-wrap { position: relative; }
+    .search-wrap input { padding: 0.5rem 1rem 0.5rem 2.25rem; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-card); color: var(--text-primary); width: 200px; font-size: 0.9rem; }
+    .search-wrap input::placeholder { color: var(--text-secondary); }
+    .search-wrap i { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 0.9rem; }
+    .sort-select { padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-card); color: var(--text-primary); font-size: 0.9rem; }
+    .view-toggle { display: flex; gap: 0.25rem; }
+    .view-toggle button { padding: 0.5rem; border: 1px solid var(--border-subtle); background: var(--bg-card); color: var(--text-secondary); border-radius: 6px; }
+    .view-toggle button:hover, .view-toggle button.active { color: var(--accent-gold); border-color: var(--accent-gold); }
+
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .products-grid.list-view { grid-template-columns: 1fr; }
+    .products-grid.list-view .product-card { display: flex; flex-direction: row; max-width: 100%; }
+    .products-grid.list-view .card-image-wrapper { width: 200px; min-height: 200px; flex-shrink: 0; }
+    .products-grid.list-view .card-body { flex: 1; text-align: left; }
+
+    .product-card {
+      background: var(--bg-card); border-radius: 14px; overflow: hidden; border: 1px solid var(--border-subtle);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.25s ease;
+      display: flex; flex-direction: column;
+    }
+    .product-card.animate-in { animation: cardStagger 0.5s ease both; }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px var(--glow-gold), 0 0 0 1px rgba(212, 168, 67, 0.2); border-color: rgba(212, 168, 67, 0.25); }
+    .card-image-wrapper { position: relative; aspect-ratio: 1; overflow: hidden; background: linear-gradient(135deg, #16161f, #1e1e2e); }
+    .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .product-card:hover .card-image-wrapper img { transform: scale(1.08); }
+    .card-badges { position: absolute; top: 0.75rem; left: 0.75rem; z-index: 2; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .stock-badge { padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+    .stock-badge.low { background: #c2410c; color: #fff; }
+    .stock-badge.out { background: #b91c1c; color: #fff; }
+    .badge-promo { padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: var(--accent-teal); color: var(--bg-primary); }
+    .badge-popular { padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: var(--accent-gold); color: var(--bg-primary); }
+    .wishlist-btn-card { position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2; width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(0,0,0,0.5); color: var(--text-primary); font-size: 1rem; transition: all 0.2s; }
+    .wishlist-btn-card:hover { background: var(--accent-gold); color: var(--bg-primary); }
+    .wishlist-btn-card.in-wishlist { color: #e11d48; }
+    .quick-view-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(2px); }
+    .product-card:hover .quick-view-overlay { opacity: 1; }
+    .product-card.quick-view-visible .quick-view-overlay { opacity: 1; }
+    .quick-view-btn { padding: 0.6rem 1.2rem; background: var(--accent-gold); color: var(--bg-primary); border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: transform 0.25s ease, box-shadow 0.25s ease; box-shadow: 0 4px 16px rgba(212, 168, 67, 0.4); }
+    .quick-view-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(212, 168, 67, 0.5); }
+    .quick-view-btn:active { transform: scale(1.02); }
+    .card-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; text-align: center; }
+    .card-rating { color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 0.25rem; }
+    .card-name { font-weight: 600; margin-bottom: 0.5rem; font-size: 1rem; }
+    .card-price { color: var(--accent-gold); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.75rem; }
+    .card-actions { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: auto; }
+    .card-actions .btn { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+
+    /* Pagination */
+    .pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap; }
+    .pagination button { padding: 0.5rem 1rem; border: 1px solid var(--border-subtle); background: var(--bg-card); color: var(--text-primary); border-radius: 8px; font-size: 0.9rem; transition: transform 0.2s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease; }
+    .pagination button:hover:not(:disabled) { border-color: var(--accent-gold); color: var(--accent-gold); transform: translateY(-2px); }
+    .pagination button.active { background: var(--accent-gold); color: var(--bg-primary); border-color: var(--accent-gold); box-shadow: 0 4px 12px var(--glow-gold); }
+    .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 1rem; opacity: 0; transition: opacity 0.3s ease; }
+    .modal-overlay.open { display: flex; opacity: 1; animation: overlayFadeIn 0.3s ease; }
+    .modal-overlay.open .modal-content { animation: scaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    .modal-content { position: relative; background: var(--bg-secondary); border-radius: 18px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; border: 1px solid var(--border-subtle); box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--bg-card); color: var(--text-primary); font-size: 1.25rem; z-index: 3; transition: background 0.2s; }
+    .modal-close:hover { background: var(--accent-gold); color: var(--bg-primary); }
+    .modal-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2rem; position: relative; }
+    .modal-image { border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #16161f, #1e1e2e); aspect-ratio: 1; }
+    .modal-image img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-details h2 { font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--text-primary); }
+    .modal-details .modal-rating { color: var(--accent-gold); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .modal-details .modal-price { font-size: 1.5rem; color: var(--accent-gold); font-weight: 700; margin-bottom: 0.75rem; }
+    .modal-details .modal-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
+    .modal-details .detail-list { list-style: none; margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary); }
+    .modal-details .detail-list li { padding: 0.25rem 0; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; }
+    .modal-details .detail-list li span:first-child { color: var(--text-primary); }
+    .qty-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .qty-controls { display: flex; align-items: center; gap: 0; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; }
+    .qty-controls button { width: 40px; height: 40px; border: none; background: var(--bg-card); color: var(--text-primary); font-size: 1.1rem; transition: background 0.2s, opacity 0.2s; min-width: 44px; min-height: 44px; }
+    .qty-controls button:hover:not(:disabled) { background: var(--accent-gold); color: var(--bg-primary); }
+    .qty-controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .qty-controls span { min-width: 36px; text-align: center; font-weight: 600; }
+    .modal-qty-hint { font-size: 0.8rem; color: var(--text-secondary); }
+    .modal-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; }
+    .modal-ctas .btn-teal { background: var(--accent-teal); color: var(--bg-primary); }
+    .modal-ctas .btn-teal:hover { background: #00e6b8; }
+    .modal-divider { height: 1px; background: var(--border-subtle); margin: 1rem 0; }
+    .modal-social { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    /* Cart Sidebar */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; display: none; opacity: 0; transition: opacity 0.3s ease; }
+    .cart-overlay.open { display: block; opacity: 1; animation: overlayFadeIn 0.25s ease; }
+    .cart-sidebar { position: fixed; top: 0; right: 0; width: 400px; max-width: 100%; height: 100%; background: var(--bg-secondary); z-index: 1501; box-shadow: -8px 0 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); border-left: 1px solid var(--border-subtle); }
+    .cart-sidebar.open { transform: translateX(0); }
+    .cart-header { padding: 1.5rem; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; }
+    .cart-header h3 { font-size: 1.25rem; }
+    .cart-close { background: none; border: none; color: var(--text-primary); font-size: 1.5rem; }
+    .cart-body { flex: 1; overflow-y: auto; padding: 1rem; }
+    .cart-empty { text-align: center; padding: 2rem; color: var(--text-secondary); }
+    .cart-empty i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+    .cart-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border-subtle); align-items: center; animation: cartItemIn 0.3s ease both; }
+    .cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; background: var(--bg-card); }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .cart-item-price { color: var(--accent-gold); font-size: 0.9rem; }
+    .cart-item-qty { display: flex; align-items: center; gap: 0.25rem; margin-top: 0.25rem; }
+    .cart-item-qty button { min-width: 36px; min-height: 36px; border: none; background: var(--bg-card); color: var(--text-primary); border-radius: 6px; font-size: 1rem; transition: background 0.2s, opacity 0.2s; }
+    .cart-item-qty button:hover:not(:disabled) { background: var(--accent-gold); color: var(--bg-primary); }
+    .cart-item-qty button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .cart-item-qty span { min-width: 24px; text-align: center; font-size: 0.9rem; }
+    .cart-item-remove { background: none; border: none; color: var(--text-secondary); font-size: 1rem; padding: 0.25rem; }
+    .cart-item-remove:hover { color: #ef4444; }
+    .cart-footer { padding: 1.5rem; border-top: 1px solid var(--border-subtle); }
+    .cart-total { font-size: 1.25rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 0.5rem; }
+    .cart-free-ship { background: rgba(0, 212, 170, 0.2); color: var(--accent-teal); padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+    .cart-footer .btn { width: 100%; justify-content: center; margin-bottom: 0.5rem; }
+    .cart-clear { width: 100%; background: transparent; border: 1px solid var(--border-subtle); color: var(--text-secondary); padding: 0.5rem; border-radius: 6px; font-size: 0.9rem; }
+    .cart-clear:hover { border-color: #ef4444; color: #ef4444; }
+
+    /* Wishlist Sidebar */
+    .wishlist-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; display: none; opacity: 0; transition: opacity 0.3s ease; }
+    .wishlist-overlay.open { display: block; opacity: 1; }
+    .wishlist-sidebar { position: fixed; top: 0; left: 0; width: 380px; max-width: 100%; height: 100%; background: var(--bg-secondary); z-index: 1501; box-shadow: 8px 0 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); border-right: 1px solid var(--border-subtle); }
+    .wishlist-sidebar.open { transform: translateX(0); }
+    .wishlist-sidebar .cart-header { border-bottom: 1px solid var(--border-subtle); }
+    .wishlist-sidebar .wishlist-body { flex: 1; overflow-y: auto; padding: 1rem; }
+    .wishlist-sidebar .wishlist-empty { text-align: center; padding: 2rem; color: var(--text-secondary); }
+    .wishlist-sidebar .wishlist-empty i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: #e11d48; }
+    .wishlist-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border-subtle); align-items: center; animation: cartItemIn 0.3s ease both; }
+    .wishlist-item img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; background: var(--bg-card); }
+    .wishlist-item-info { flex: 1; min-width: 0; }
+    .wishlist-item-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .wishlist-item-price { color: var(--accent-gold); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .wishlist-item-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .wishlist-item-actions .btn { padding: 0.35rem 0.65rem; font-size: 0.8rem; }
+    .wishlist-item-remove { background: none; border: none; color: var(--text-secondary); font-size: 1rem; padding: 0.25rem; }
+    .wishlist-item-remove:hover { color: #e11d48; }
+
+    /* Toast */
+    .toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 3000; display: flex; flex-direction: column; gap: 0.5rem; }
+    .toast { padding: 1rem 1.25rem; border-radius: 10px; display: flex; align-items: center; gap: 0.75rem; min-width: 280px; animation: toastSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 32px rgba(0,0,0,0.35); position: relative; overflow: hidden; }
+    .toast::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(0,0,0,0.2); transform-origin: left; animation: toastProgress 3s linear forwards; }
+    .toast.success { background: var(--accent-teal); color: var(--bg-primary); }
+    .toast.info { background: var(--accent-gold); color: var(--bg-primary); }
+    .toast.warning { background: #ea580c; color: #fff; }
+
+    /* About */
+    .about { background: var(--bg-secondary); }
+    .about p { max-width: 700px; margin: 0 auto 2rem; text-align: center; color: var(--text-secondary); line-height: 1.7; }
+    .about-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+    .about-feature { background: var(--bg-card); padding: 1.5rem; border-radius: 14px; text-align: center; border: 1px solid var(--border-subtle); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.25s ease; }
+    .about-feature:hover { transform: translateY(-4px); box-shadow: 0 12px 32px var(--glow-gold); border-color: rgba(212, 168, 67, 0.3); }
+    .about-feature i { font-size: 2rem; color: var(--accent-gold); margin-bottom: 0.75rem; transition: transform 0.3s ease; }
+    .about-feature:hover i { transform: scale(1.1); }
+    .about-feature h4 { margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .about-feature p { margin: 0; font-size: 0.9rem; }
+    .about-stats { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .about-stat { text-align: center; }
+    .about-stat .num { font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--accent-gold); display: block; }
+    .about-stat .label { font-size: 0.85rem; color: var(--text-secondary); }
+    .about-social { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* Footer */
+    footer { background: var(--bg-primary); border-top: 1px solid var(--border-subtle); padding: 3rem 2rem 1.5rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .footer-brand .logo { display: block; margin-bottom: 0.5rem; }
+    .footer-brand p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
+    .footer-links { display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+    .footer-links a:hover { color: var(--accent-gold); }
+    .footer-right { text-align: right; color: var(--text-secondary); font-size: 0.85rem; }
+    .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); color: var(--text-secondary); font-size: 0.85rem; }
+
+    @media (min-width: 1200px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 1199px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .nav-actions .icon-btn { min-width: 44px; min-height: 44px; padding: 0.5rem; display: inline-flex; align-items: center; justify-content: center; }
+      .nav-links { display: none; }
+      .hamburger { display: block; min-width: 44px; min-height: 44px; padding: 0.5rem; }
+      .logo { font-size: 1.25rem; }
+      .promo-bar { padding: 0.4rem 1rem; font-size: 0.75rem; padding-right: 3rem; }
+      .hero { min-height: 65vh; padding: 2rem 1rem 1.5rem; justify-content: center; }
+      body.promo-visible .hero { padding-top: 108px; }
+      .hero-title { font-size: 4rem; }
+      .hero-subtitle { margin-top: 0.35rem; letter-spacing: 0.2em; }
+      .hero-desc { margin-top: 0.6rem; font-size: 0.95rem; }
+      .hero-btns { margin-top: 1.25rem; gap: 0.75rem; }
+      .hero-btns .btn { min-height: 44px; padding: 0.65rem 1.25rem; }
+      .hero-arrow { bottom: 1rem; font-size: 1.25rem; }
+      .section { padding: 2.5rem 1rem; }
+      .section-title { font-size: 1.75rem; }
+      .filter-bar { gap: 0.75rem; margin-bottom: 1.5rem; }
+      .filter-pills .pill { min-height: 44px; padding: 0.5rem 0.85rem; }
+      .search-wrap input { width: 100%; min-height: 44px; }
+      .sort-select { min-height: 44px; }
+      .view-toggle button { min-width: 44px; min-height: 44px; }
+      .product-card .card-actions .btn { min-height: 44px; padding: 0.5rem 0.75rem; }
+      .modal-overlay { padding: 0.5rem; align-items: flex-start; }
+      .modal-content { max-height: 95vh; border-radius: 12px; }
+      .modal-inner { grid-template-columns: 1fr; gap: 1rem; padding: 1.25rem; }
+      .modal-details h2 { font-size: 1.35rem; }
+      .modal-close { top: 0.5rem; right: 0.5rem; width: 44px; height: 44px; }
+      .cart-sidebar { width: 100%; max-width: 100%; }
+      .wishlist-sidebar { width: 100%; max-width: 100%; }
+      .cart-item { flex-wrap: wrap; }
+      .cart-item-qty button { min-width: 40px; min-height: 40px; }
+      .about-features { grid-template-columns: 1fr; gap: 1rem; }
+      .about-feature { padding: 1.25rem; }
+      .about-stats { gap: 1.5rem; }
+      .about-social .btn { min-height: 44px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; padding: 0 1rem; }
+      .footer-right { text-align: center; }
+      footer { padding: 2rem 1rem 1rem; }
+      .toast-container { left: 1rem; right: 1rem; bottom: 1rem; }
+      .toast { min-width: auto; }
+    }
+    @media (max-width: 480px) {
+      .navbar { padding: 0.5rem 0.75rem; }
+      .hero { min-height: 60vh; padding: 1.5rem 0.75rem 1rem; }
+      .hero-title { font-size: 2.75rem; }
+      .hero-btns { margin-top: 1rem; flex-direction: column; width: 100%; max-width: 280px; margin-left: auto; margin-right: auto; }
+      .hero-btns .btn { width: 100%; justify-content: center; }
+      .hero-arrow { bottom: 0.75rem; }
+      .section { padding: 2rem 0.75rem; }
+      .section-title { font-size: 1.5rem; }
+      .filter-bar { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+      .filter-right { flex-direction: column; }
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .products-grid .card-body { padding: 0.75rem; }
+      .products-grid .card-name { font-size: 0.9rem; }
+      .products-grid .card-actions { flex-direction: column; }
+      .products-grid .card-actions .btn { width: 100%; justify-content: center; }
+      .pagination button { min-width: 44px; min-height: 44px; }
+      .modal-inner { padding: 1rem; }
+      .modal-details .modal-ctas { flex-direction: column; }
+      .modal-details .modal-ctas .btn { width: 100%; justify-content: center; min-height: 44px; }
+      .modal-social { flex-direction: column; }
+      .modal-social .btn { width: 100%; justify-content: center; }
+      .wishlist-item { flex-wrap: wrap; }
+      .wishlist-item-actions { flex-direction: column; }
+      .wishlist-item-actions .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<div class="promo-bar" id="promoBar">
+  <span class="promo-bar-text">🎁 Pulsuz çatdırılma • 24 saat ərzində çatdırılma • 12 ay zəmanət</span>
+  <button type="button" class="promo-bar-close" id="promoBarClose" aria-label="Bağla">&times;</button>
+</div>
+
+<nav class="navbar" id="navbar">
+  <a href="#" class="logo">S·A·Y·N</a>
+  <div class="nav-links">
+    <a href="#home">Əsas Səhifə</a>
+    <a href="#products">Məhsullar</a>
+    <a href="#about">Haqqımızda</a>
+  </div>
+  <div class="nav-actions">
+    <button class="icon-btn" id="wishlistBtn" aria-label="Wishlist"><i class="far fa-heart"></i><span class="badge" id="wishlistBadge">0</span></button>
+    <button class="icon-btn" id="cartBtn" aria-label="Səbət"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menyu"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-particles">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-title">SAYN</h1>
+    <p class="hero-subtitle">aksesuar</p>
+    <p class="hero-desc">Azərbaycanın ən trendy aksesuar mağazası</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn btn-primary">Məhsullara Bax</a>
+      <a href="https://www.instagram.com/sayn_aksesuar?igsh=bXpha3AxbHR6Z3Mx&utm_source=qr" target="_blank" rel="noopener" class="btn btn-outline">Instagram-da izlə</a>
+    </div>
+  </div>
+  <div class="hero-arrow"><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<section class="section" id="products">
+  <h2 class="section-title">Məhsullar</h2>
+  <div class="filter-bar">
+    <div class="filter-pills" id="filterPills"></div>
+    <div class="filter-right">
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Axtarış...">
+      </div>
+      <select class="sort-select" id="sortSelect"></select>
+      <div class="view-toggle">
+        <button type="button" id="viewGrid" class="active" aria-label="Grid"><i class="fas fa-th-large"></i></button>
+        <button type="button" id="viewList" aria-label="List"><i class="fas fa-list"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+  <div class="pagination" id="pagination"></div>
+</section>
+
+<section class="section about" id="about">
+  <h2 class="section-title">Haqqımızda</h2>
+  <p>SAYN aksesuar olaraq, müasir Azərbaycan gəncliyinə ən trendy aksesuarları, elektronik məhsulları və unikal stikerləri çatdırırıq. Hər məhsul diqqətlə seçilir, keyfiyyət yoxlamasından keçir. Müştəri məmnuniyyəti bizim əsas prioritetimizdir.</p>
+  <div class="about-features">
+    <div class="about-feature">
+      <i class="fas fa-gem"></i>
+      <h4>Keyfiyyətli Məhsullar</h4>
+      <p>Hər məhsul diqqətlə seçilir</p>
+    </div>
+    <div class="about-feature">
+      <i class="fas fa-heart"></i>
+      <h4>Müştəri Məmnuniyyəti</h4>
+      <p>Siz razı olsanız, biz uğurlu oluruq</p>
+    </div>
+    <div class="about-feature">
+      <i class="fas fa-truck-fast"></i>
+      <h4>Sürətli Çatdırılma</h4>
+      <p>24 saat ərzində pulsuz çatdırılma</p>
+    </div>
+  </div>
+  <div class="about-stats">
+    <div class="about-stat"><span class="num">2023</span><span class="label">Fəaliyyət ili</span></div>
+    <div class="about-stat"><span class="num">100+</span><span class="label">Məmnun müştəri</span></div>
+    <div class="about-stat"><span class="num">24h</span><span class="label">Çatdırılma</span></div>
+    <div class="about-stat"><span class="num">4.8★</span><span class="label">Reytinq</span></div>
+  </div>
+  <div class="about-social">
+    <a href="https://www.instagram.com/sayn_aksesuar?igsh=bXpha3AxbHR6Z3Mx&utm_source=qr" target="_blank" rel="noopener" class="btn btn-outline"><i class="fab fa-instagram"></i> Instagram</a>
+    <a href="https://www.tiktok.com/@sayn_aksesuar?_r=1&_t=ZS-948LwJZhgvQ" target="_blank" rel="noopener" class="btn btn-outline"><i class="fab fa-tiktok"></i> TikTok</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">S·A·Y·N</span>
+      <p>Azərbaycanın trendy aksesuar mağazası</p>
+      <div class="nav-actions" style="justify-content: flex-start;">
+        <a href="https://www.instagram.com/sayn_aksesuar?igsh=bXpha3AxbHR6Z3Mx&utm_source=qr" target="_blank" rel="noopener" class="icon-btn"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@sayn_aksesuar?_r=1&_t=ZS-948LwJZhgvQ" target="_blank" rel="noopener" class="icon-btn"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div>
+      <strong style="color: var(--text-primary);">Sürətli Keçidlər</strong>
+      <div class="footer-links" style="margin-top: 0.5rem;">
+        <a href="#products">Məhsullar</a>
+        <a href="#about">Haqqımızda</a>
+        <a href="https://www.instagram.com/sayn_aksesuar?igsh=bXpha3AxbHR6Z3Mx&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@sayn_aksesuar?_r=1&_t=ZS-948LwJZhgvQ" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p>Pulsuz çatdırılma</p>
+      <p>12 ay zəmanət</p>
+      <p>24 saat xidmət</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 SAYN aksesuar. Bütün hüquqlar qorunur.</div>
+</footer>
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="Bağla">&times;</button>
+    <div class="modal-inner" id="modalInner"></div>
+  </div>
+</div>
+
+<!-- Cart Sidebar -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Alış-veriş Səbəti <span id="cartCountText">🛒</span></h3>
+    <button class="cart-close" id="cartClose">&times;</button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</div>
+
+<!-- Wishlist Sidebar -->
+<div class="wishlist-overlay" id="wishlistOverlay"></div>
+<div class="wishlist-sidebar" id="wishlistSidebar">
+  <div class="cart-header">
+    <h3>İstək Siyahısı <span id="wishlistCountText">♥</span></h3>
+    <button class="cart-close" id="wishlistClose">&times;</button>
+  </div>
+  <div class="wishlist-body" id="wishlistBody"></div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+const SOCIAL_LINKS = {
+  instagram: "https://www.instagram.com/sayn_aksesuar?igsh=bXpha3AxbHR6Z3Mx&utm_source=qr",
+  tiktok: "https://www.tiktok.com/@sayn_aksesuar?_r=1&_t=ZS-948LwJZhgvQ"
+};
+
+const products = [
+  { id: 1, name: "Vintage Tərzli Gözlük", price: 19.99, category: "accessories", image: "images/glass.jpg", rating: 4.8, reviews: 98, stock: 10, badge: null, description: "Vintage ilhamlı kvadrat çərçivəli kişilər üçün gözlük – paslanmayan polad material, mavi linzalar, çərçivəsiz dizayn. Yay üslubu üçün ideal seçimdir və gündəlik istifadə üçün uyğundur.", details: { material: "Paslanmayan polad, mavi linzalar", style: "Vintage, kvadrat çərçivə", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 2, name: "Hip-Hop Tərzli Alaşım Boyunbağı", price: 7.00, category: "accessories", image: "images/necklace.jpg", rating: 4.8, reviews: 134, stock: 8, badge: null, description: "Şıq və modern hip-hop tərzli alaşım boyunbağı – qadın və kişilər üçün uyğun uniseks dizayn. Gündəlik stil və partilər üçün ideal, hər kombinə uyğun gəlir. Dayanıqlı alaşım materialdan hazırlanıb.", details: { material: "Alaşım", style: "Hip-Hop, Uniseks", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 3, name: "Gotik Yarasa Amblemli Bileklik Seti", price: 13.00, category: "accessories", image: "images/bracelet.jpg", rating: 4.8, reviews: 77, stock: 4, badge: "4 ədəd qalıb", description: "4-lü dəbli hörgülü süni dəridən hazırlanmış bileklik seti – yarasa formalı alaşımlı emblem ilə fərqli və cəsur tərz. Uniseks dizaynı ilə qadınlar və kişilər üçün uyğundur.", details: { material: "Süni dəri, alaşım emblem", style: "Gotik, Uniseks", quantity: "4-lü set", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 4, name: "MSCXDK Kişilər Üçün Kvars Saat", price: 15.00, category: "electronics", image: "images/watch.jpg", rating: 4.8, reviews: 203, stock: 2, badge: "2 ədəd qalıb", description: "Minimalist qara cadran və aydın ağ göstəricilərə malik, gündəlik istifadə üçün uyğun kvars saat. Batareya ilə işləyir, dayanıqlı reçinə kəməri ilə rahatlıq təqdim edir.", details: { material: "Reçinə kəmər, metal gövdə", mechanism: "Kvars (batareya)", style: "Minimalist", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 5, name: "4-lü Vintage Hörgülü Bileklik Seti", price: 13.99, category: "accessories", image: "images/bracelet2.jpg", rating: 4.8, reviews: 134, stock: 6, badge: null, description: "Gənclər üçün nəzərdə tutulmuş 4-lü vintage hörgülü bileklik seti – cool və trend tərzə sahib olmaq istəyənlər üçün idealdır. Gündəlik və outdoor üsluba uyğundur.", details: { style: "Vintage, Outdoor", quantity: "4-lü set", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 6, name: "Küba Zəncir Bileklik", price: 5.50, category: "accessories", image: "images/chain.jpg", rating: 4.8, reviews: 89, stock: 10, badge: null, description: "Hip-hop tərzini sevənlər üçün cazibədar dizayn. Paslanmaz çelik – hipoalerjenik, yuyula bilən və solmaya davamlı. Parlaq görünüşü ilə çağdaş modaya uyğun.", details: { material: "Paslanmaz çelik", style: "Hip-Hop, Küba zəncir", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 7, name: "Parlaq Rəngli Cütlük və Ən Yaxşı Dostlar Bileklik Seti", price: 7.00, category: "accessories", image: "images/bracelet3.jpg", rating: 4.8, reviews: 56, stock: 3, badge: "3 ədəd qalıb", description: "Dostluğunuzu simvolizə edən ikili bileklik. Parlaq rənglər və sadə, zərif dizayn. Ayarlanabilir ölçü – hər kəsə uyğun. Şans simvolları ilə pozitiv enerji daşıyır.", details: { material: "Alaşım", quantity: "2-li set", adjustable: "Ayarlanabilir ölçü", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 8, name: "Universal USB Bağlantı və Adaptör Kiti", price: 13.00, category: "electronics", image: "images/kit.jpg", rating: 4.8, reviews: 112, stock: 2, badge: "2 ədəd qalıb", description: "60W sürətli şarj dəstəyi ilə enerji itirmə! USB-C, USB-A, Micro-USB və Lightning kabelləri – bir kiti bütün cihazlar üçün istifadə et! SIM kart yuvası daxildir. Kompakt və portativ.", details: { ports: "USB-C, USB-A, Micro-USB, Lightning", charging: "60W sürətli şarj", extras: "SIM kart yuvası", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 9, name: "Çoxfunksiyalı Silikon Masaj Cihazı", price: 13.00, category: "electronics", image: "images/usb.jpg", rating: 4.8, reviews: 167, stock: 6, badge: null, description: "USB və pil ilə işləyir, istənilən yerdə rahatlıqla istifadə et! Boyun, bel, qol, ayaq, çiyin üçün ideal! Silikon material – dəri üçün zərif. Fitness sonrası bədən yorğunluğunu aradan qaldırır.", details: { material: "Silikon", power: "USB + Batareya", usage: "Boyun, bel, qol, ayaq, çiyin", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 10, name: "Əl İşləməsi Örgülü Kəpənək Şarj Aksesuarı", price: 5.00, category: "accessories", image: "images/bracelet4.jpg", rating: 4.8, reviews: 56, stock: 8, badge: null, description: "Ən yaxşı dost üçün mükəmməl hədiyyə! Ayarlanabilir örgülü ip ilə istənilən biləyə uyğun. Vintage Boho tərzi – həm gündəlik, həm də xüsusi günlər üçün ideal!", details: { material: "Örgülü ip", style: "Vintage Boho, Kəpənək dizayn", adjustable: "Ayarlanabilir", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 11, name: "Şık Paslanmaz Çelik Bilezik", price: 7.50, category: "accessories", image: "images/naomi.jpg", rating: 4.8, reviews: 88, stock: 4, badge: "4 ədəd qalıb", description: "9mm kare dizaynı ilə həm kişilər, həm də qadınlar üçün uyğundur! Elastik quruluşu ilə gündəlik və xüsusi tərzlərə uyğun. Hip Hop moda sevənlər üçün mükəmməl aksesuar!", details: { material: "Paslanmaz çelik", width: "9mm", style: "Hip-Hop, Kare dizayn, Uniseks", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 12, name: "18K Qızıl Kaplama Boho Arap Tərzi Kolye", price: 15.00, category: "accessories", image: "images/necklace2.jpg", rating: 4.8, reviews: 156, stock: 7, badge: null, description: "Şans yarpağı dizaynı ilə həm gündəlik, həm də festival geyimlərinə xüsusi toxunuş qatır! Parlaq sintetik zirkon daşı ilə diqqət çəkir. Ramazan və digər özəl günlər üçün mükəmməl hədiyyə.", details: { color: "Gümüşü", material: "Mis üzərinə 18K qızıl kaplama", stone: "Sintetik zirkon", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 13, name: "USB 2.0 Multi-Port Hub", price: 7.50, category: "electronics", image: "images/port.jpg", rating: 4.8, reviews: 203, stock: 5, badge: null, description: "4 Port – eyni anda bir neçə cihaz qoş! Hər port üçün ayrı açma/söndürmə düyməsi. USB 2.0 (480 Mbps). Klaviatura, siçan, flash kart, printer üçün uyğundur. Plug & Play!", details: { ports: "4x USB 2.0", speed: "480 Mbps", feature: "Hər port üçün ayrı düymə", compatibility: "Plug & Play", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 14, name: "Yin Yang Cütlüklər üçün Əl Zənciri", price: 5.50, category: "accessories", image: "images/bracelet5.jpg", rating: 4.8, reviews: 44, stock: 2, badge: "2 ədəd qalıb", description: "Yin Yang cütlüklər üçün qəzalı stil. Qara və ağ dizayn, sintetik daşlarla bəzədilmiş kulonlar. Pambıq ipdən hazırlanıb, çinko alaşımdan kulonlarla tamamlanıb. 2-li set.", details: { material: "Pambıq ip, çinko alaşım kulon", stone: "Sintetik rhinestone", quantity: "2-li set", style: "Yin Yang, Cütlük", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 15, name: "3-ü 1 arada Tip-C Kart Oxuyucu Adaptör", price: 3.50, category: "electronics", image: "images/tipc.jpg", rating: 4.8, reviews: 89, stock: 1, badge: "1 ədəd qalıb", description: "Kompakt dizayn və yüksək sürətli məlumat ötürülməsi! Huawei, Macbook və digər Type-C cihazlarla tam uyğun. TF, CF, SD kart dəstəyi. Plug & Play – proqram tələb olunmur!", details: { ports: "TF, CF, SD kart", compatibility: "Type-C cihazlar", feature: "Plug & Play", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 16, name: "4 Parça Kişi Vintage Tərzli Süni Dəri Bileklik Seti", price: 14.50, category: "accessories", image: "images/bracelet6.jpg", rating: 4.8, reviews: 201, stock: 2, badge: "2 ədəd qalıb", description: "Dokuma və süni dəridən hazırlanmış unikal dizayn. Fərqli kombinlərlə DIY tərzində öz üslubunu yarat. Outdoor istifadə üçün mükəmməl. Vintage stil sevənlər üçün ideal hədiyyə.", details: { material: "Süni dəri, dokuma", style: "Vintage, DIY, Outdoor", quantity: "4-lü set", adjustable: "Ayarlanabilir", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 17, name: "Proqramçı Karikatura Stickerləri", price: 8.00, category: "stickers", image: "images/sticker.jpg", rating: 4.8, reviews: 312, stock: 70, badge: null, description: "50 ədəd Karikatura tərzində Proqramçı Stickerləri. Yenidən istifadə oluna bilən, suya davamlı. Laptop, su qabı, telefon, kitab üçün uyğundur. Java və kod mövzularında gülməli ifadələr.", details: { quantity: "50 ədəd", material: "Suya davamlı sintetik kağız", usage: "Laptop, su qabı, telefon, kitab", theme: "Proqramçı, Java, Kod", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 18, name: "Cütlük Qolbaqları & Biləklik Seti (2 ədəd)", price: 6.00, category: "accessories", image: "images/bracelet7.jpg", rating: 4.8, reviews: 89, stock: 3, badge: "3 ədəd qalıb", description: "2 ədəd Sevimli Hayalet Kolye & Biləklik. Doğum günləri, ildönümləri, məzuniyyət və Yeni il üçün mükəmməl hədiyyə! Sevdiklərinizi fərqli aksessuarla sevindirin!", details: { quantity: "2-li set", style: "Hayalet, Cütlük", usage: "Hədiyyə, Gündəlik", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 19, name: "Moda Desenli Paslanmaz Çelik Kolye", price: 6.50, category: "accessories", image: "images/necklace3.jpg", rating: 4.8, reviews: 44, stock: 1, badge: "1 ədəd qalıb", description: "Kişilər üçün zərif şimşək dizaynlı paslanmaz çelik kolye! Uzun ömürlü və dayanıqlı. Gözə çarpan görünüş üçün ideal. Şimşək dizaynı ilə fərqli hədiyyə!", details: { material: "Paslanmaz çelik", style: "Şimşək dizayn, Müasir", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 20, name: "Moda Retro Üç Rəngli Paslanmaz Polad Üzük Seti (10 ədəd)", price: 2.50, category: "accessories", image: "images/rings.jpg", rating: 4.8, reviews: 178, stock: 10, badge: null, description: "10 ədəd Retro Üç Rəngli Paslanmaz Polad Üzük. Kişilər üçün qarışıq dizaynlı üzük dəsti. Parti, hədiyyə və gündəlik istifadə üçün ideal. Ölçülər: 17-21 arası.", details: { material: "Paslanmaz polad", quantity: "10 ədəd", sizes: "17-21 (hər ölçüdən 2 ədəd)", style: "Retro, 3 rəngli", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 21, name: "Gümüşü Tonlu Paslanmaz Polad Dikdörtgen Bar Boyunbağı", price: 8.00, category: "accessories", image: "images/necklace4.jpg", rating: 4.8, reviews: 67, stock: 1, badge: "1 ədəd qalıb", description: "Zərif və müasir bar dizayn – gündəlik tərzinizə xüsusi toxunuş! 304L paslanmaz polad zəncir – suya və solmaya davamlı. Həm kişilər, həm də qadınlar üçün ideal.", details: { material: "304L Paslanmaz polad", color: "Gümüşü", style: "Bar, Minimalist, Uniseks", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 22, name: "Öz-özünə Hərəkət Edən Əyləncəli Kopya Qələmi", price: 3.50, category: "custom", image: "images/pen.jpg", rating: 4.8, reviews: 233, stock: 3, badge: "3 ədəd qalıb", description: "Gözlənilməz və yaradıcı dizayn – gülməli və maraqlı təcrübə! Dostlara zarafatlı hədiyyə olaraq idealdır. Masada öz-özünə hərəkət edən görünüşü ilə diqqət cəlb edir.", details: { style: "Əyləncəli, Zarafat", usage: "Hədiyyə, Sınaq", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 23, name: "AirPods Pro Temizlik Kiti", price: 9.00, category: "custom", image: "images/clean.jpg", rating: 4.8, reviews: 67, stock: 1, badge: "1 ədəd qalıb", description: "AirPods və digər kablosuz qulaqlıqlar üçün mükəmməl təmizlik həlli! Mini yumuşaq fırça, flocking sünger və metal kalem ucu daxildir. Kompakt və istifadəsi asan.", details: { includes: "Yumuşaq fırça, flocking sünger, metal kalem", compatibility: "AirPods Pro, kablosuz qulaqlıqlar", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } },
+  { id: 24, name: "Mini Mesajlı Sevgi Kapsulları – Aşk Məktubu Kapsülləri", price: 5.50, category: "custom", image: "images/capsul.jpg", rating: 4.8, reviews: 189, stock: 30, badge: null, description: "Cam şüşə və kağızdan hazırlanmış romantik mesaj hapları. İçərisində istəyə uyğun arzular yazmaq mümkündür. Sevgililər, doğum günü, Yeni il üçün ideal hədiyyə. Ölçü: 2.39 x 0.79 sm.", details: { material: "Cam şüşə, kağız", size: "2.39 x 0.79 sm", usage: "Romantik hədiyyə, Sürpriz", delivery: "Pulsuz (24 saat ərzində)", warranty: "12 ay rəsmi zəmanət" } }
+];
+
+const CART_KEY = 'sayn_cart';
+const WISHLIST_KEY = 'sayn_wishlist';
+const PER_PAGE = 8;
+const CATEGORIES = [
+  { id: '', label: 'Hamısı' },
+  { id: 'accessories', label: 'Aksesuarlar' },
+  { id: 'electronics', label: 'Elektronika' },
+  { id: 'stickers', label: 'Stikerlər' },
+  { id: 'custom', label: 'Xüsusi' }
+];
+const SORT_OPTIONS = [
+  { id: 'name-asc', label: 'Ad (A-Z)' },
+  { id: 'name-desc', label: 'Ad (Z-A)' },
+  { id: 'price-asc', label: 'Qiymət aşağıdan' },
+  { id: 'price-desc', label: 'Qiymət yuxarıdan' },
+  { id: 'newest', label: 'Yeni əlavələr' }
+];
+
+function getCart() { try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
+function normalizeCart(cart) {
+  const out = [];
+  for (const item of cart) {
+    const p = products.find(x => x.id === item.id);
+    if (!p || p.stock === 0) continue;
+    out.push({ ...item, qty: Math.min(Math.max(1, item.qty), p.stock), stock: p.stock });
+  }
+  return out;
+}
+function setCart(cart) {
+  const normalized = normalizeCart([...cart]);
+  localStorage.setItem(CART_KEY, JSON.stringify(normalized));
+  updateCartUI();
+}
+function getWishlist() { try { return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); } catch { return []; } }
+function setWishlist(arr) { localStorage.setItem(WISHLIST_KEY, JSON.stringify(arr)); updateWishlistUI(); }
+
+function updateCartUI() {
+  let cart = getCart();
+  const normalized = normalizeCart(cart.map(i => ({ ...i })));
+  if (normalized.length !== cart.length || normalized.some((n, i) => cart[i] && cart[i].qty !== n.qty)) {
+    localStorage.setItem(CART_KEY, JSON.stringify(normalized));
+    cart = normalized;
+  }
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartBadge').textContent = count;
+  document.getElementById('cartCountText').textContent = count ? `(${count}) 🛒` : '🛒';
+  renderCartSidebar();
+}
+function updateWishlistUI() {
+  const wl = getWishlist();
+  const badge = document.getElementById('wishlistBadge');
+  const countText = document.getElementById('wishlistCountText');
+  badge.textContent = wl.length;
+  if (countText) countText.textContent = wl.length ? `(${wl.length}) ♥` : '♥';
+  const navHeart = document.querySelector('#wishlistBtn i');
+  if (navHeart) navHeart.className = wl.length ? 'fas fa-heart' : 'far fa-heart';
+  document.querySelectorAll('.wishlist-btn-card').forEach(btn => {
+    const id = parseInt(btn.dataset.id, 10);
+    btn.classList.toggle('in-wishlist', wl.includes(id));
+    btn.innerHTML = wl.includes(id) ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+  });
+  if (document.getElementById('wishlistSidebar').classList.contains('open')) renderWishlistSidebar();
+}
+
+function renderWishlistSidebar() {
+  const wl = getWishlist();
+  const body = document.getElementById('wishlistBody');
+  if (wl.length === 0) {
+    body.innerHTML = '<div class="wishlist-empty"><i class="fas fa-heart"></i><p>İstək siyahınız boşdur.<br>Məhsul kartlarındakı ürək ikonuna basaraq əlavə edin.</p></div>';
+    return;
+  }
+  body.innerHTML = wl.map((id, idx) => {
+    const p = products.find(x => x.id === id);
+    if (!p) return '';
+    return `
+    <div class="wishlist-item" data-id="${p.id}" style="animation-delay: ${idx * 0.05}s">
+      <img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">
+      <div class="wishlist-item-info">
+        <div class="wishlist-item-name">${p.name}</div>
+        <div class="wishlist-item-price">${p.price.toFixed(2)} ₼</div>
+        <div class="wishlist-item-actions">
+          <button type="button" class="btn btn-outline wishlist-view-btn" data-id="${p.id}">Ətraflı</button>
+          <button type="button" class="btn btn-primary wishlist-add-cart-btn" data-id="${p.id}" ${p.stock === 0 ? 'disabled' : ''}>Səbətə əlavə et</button>
+        </div>
+      </div>
+      <button type="button" class="wishlist-item-remove" data-id="${p.id}" aria-label="Siyahıdan çıxar">×</button>
+    </div>`;
+  }).join('');
+  body.querySelectorAll('.wishlist-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => { openModal(parseInt(btn.dataset.id, 10)); });
+  });
+  body.querySelectorAll('.wishlist-add-cart-btn').forEach(btn => {
+    btn.addEventListener('click', () => { addToCart(parseInt(btn.dataset.id, 10), 1); });
+  });
+  body.querySelectorAll('.wishlist-item-remove').forEach(btn => {
+    btn.addEventListener('click', () => { toggleWishlist(parseInt(btn.dataset.id, 10)); });
+  });
+}
+
+function stockBadge(p) {
+  if (p.stock === 0) return '<span class="stock-badge out">Tükənib</span>';
+  if (p.stock <= 3) return '<span class="stock-badge low">' + p.stock + ' ədəd qalıb</span>';
+  return '';
+}
+function marketingBadges(p) {
+  let html = '';
+  if (p.price < 8) html += '<span class="badge-promo">Əla qiymət</span>';
+  if (p.reviews > 150) html += '<span class="badge-popular">Populyar</span>';
+  return html;
+}
+
+function getFilteredProducts() {
+  const cat = document.querySelector('.filter-pills .pill.active')?.dataset.cat ?? '';
+  const sort = document.getElementById('sortSelect').value;
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  let list = products.filter(p => {
+    if (cat && p.category !== cat) return false;
+    if (q && !p.name.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  if (sort === 'name-asc') list.sort((a, b) => a.name.localeCompare(b.name));
+  else if (sort === 'name-desc') list.sort((a, b) => b.name.localeCompare(a.name));
+  else if (sort === 'price-asc') list.sort((a, b) => a.price - b.price);
+  else if (sort === 'price-desc') list.sort((a, b) => b.price - a.price);
+  else if (sort === 'newest') list.sort((a, b) => b.id - a.id);
+  return list;
+}
+
+let currentPage = 1;
+let listView = false;
+
+function renderProducts() {
+  const list = getFilteredProducts();
+  const totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+  currentPage = Math.min(currentPage, totalPages);
+  const start = (currentPage - 1) * PER_PAGE;
+  const pageProducts = list.slice(start, start + PER_PAGE);
+  const wishlist = getWishlist();
+  const grid = document.getElementById('productsGrid');
+  grid.className = 'products-grid' + (listView ? ' list-view' : '');
+  grid.innerHTML = pageProducts.map((p, idx) => {
+    const inWl = wishlist.includes(p.id);
+    const delay = (idx % 8) * 0.05;
+    return `
+    <div class="product-card animate-in" data-id="${p.id}" style="animation-delay: ${delay}s">
+      <div class="card-image-wrapper">
+        <div class="card-badges">${stockBadge(p)}${marketingBadges(p)}</div>
+        <button type="button" class="wishlist-btn-card ${inWl ? 'in-wishlist' : ''}" data-id="${p.id}" aria-label="Wishlist">${inWl ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>'}</button>
+        <img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">
+        <div class="quick-view-overlay"><button type="button" class="quick-view-btn" data-id="${p.id}">Sürətli Bax</button></div>
+      </div>
+      <div class="card-body">
+        <div class="card-rating">★ ${p.rating} (${p.reviews})</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">${p.price.toFixed(2)} ₼</div>
+        <div class="card-actions">
+          <button type="button" class="btn btn-outline quick-view-btn-inline" data-id="${p.id}">Ətraflı</button>
+          <button type="button" class="btn btn-primary add-cart-btn" data-id="${p.id}" ${p.stock === 0 ? 'disabled' : ''}>Səbətə əlavə et 🛒</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.wishlist-btn-card').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.stopPropagation(); toggleWishlist(parseInt(btn.dataset.id, 10)); });
+  });
+  document.querySelectorAll('.quick-view-btn, .quick-view-btn-inline').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.stopPropagation(); openModal(parseInt(btn.dataset.id, 10)); });
+  });
+  document.querySelectorAll('.add-cart-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart(parseInt(btn.dataset.id, 10), 1); });
+  });
+  document.querySelectorAll('.card-image-wrapper').forEach(wrap => {
+    wrap.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      const card = wrap.closest('.product-card');
+      if (card) openModal(parseInt(card.dataset.id, 10));
+    });
+  });
+  updateWishlistUI();
+  renderPagination(list.length, totalPages);
+}
+
+function renderPagination(totalItems, totalPages) {
+  const wrap = document.getElementById('pagination');
+  if (totalPages <= 1) { wrap.innerHTML = ''; return; }
+  let html = '<button type="button" data-page="prev"' + (currentPage === 1 ? ' disabled' : '') + '>Əvvəlki</button>';
+  for (let i = 1; i <= totalPages; i++) {
+    html += '<button type="button" class="' + (i === currentPage ? 'active ' : '') + '" data-page="' + i + '">' + i + '</button>';
+  }
+  html += '<button type="button" data-page="next"' + (currentPage === totalPages ? ' disabled' : '') + '>Sonrakı</button>';
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => {
+      const p = b.dataset.page;
+      if (p === 'prev') currentPage = Math.max(1, currentPage - 1);
+      else if (p === 'next') currentPage = Math.min(totalPages, currentPage + 1);
+      else currentPage = parseInt(p, 10);
+      renderProducts();
+    });
+  });
+}
+
+function toggleWishlist(id) {
+  let wl = getWishlist();
+  if (wl.includes(id)) wl = wl.filter(x => x !== id);
+  else wl = [...wl, id];
+  setWishlist(wl);
+  showToast(wl.includes(id) ? 'Wishlist-ə əlavə edildi' : 'Wishlist-dən çıxarıldı', 'success');
+}
+
+function addToCart(id, qty) {
+  const p = products.find(x => x.id === id);
+  if (!p || p.stock === 0) return;
+  let cart = getCart();
+  const i = cart.findIndex(x => x.id === id);
+  const maxQty = Math.min(p.stock, (i >= 0 ? cart[i].qty : 0) + qty);
+  if (i >= 0) cart[i].qty = maxQty;
+  else cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, stock: p.stock, qty: maxQty });
+  setCart(cart);
+  showToast('Səbətə əlavə edildi', 'success');
+}
+
+function renderCartSidebar() {
+  const cart = getCart();
+  const body = document.getElementById('cartBody');
+  const footer = document.getElementById('cartFooter');
+  if (cart.length === 0) {
+    body.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Səbətiniz boşdur 🛍</p></div>';
+    footer.innerHTML = '';
+    return;
+  }
+  const normalizedCart = normalizeCart(cart.map(i => ({ ...i })));
+  const needsSave = normalizedCart.length !== cart.length || normalizedCart.some((n, i) => (cart[i] && cart[i].qty !== n.qty));
+  if (needsSave) { setCart(normalizedCart); return; }
+  body.innerHTML = normalizedCart.map((item, idx) => {
+    const p = products.find(x => x.id === item.id);
+    const stock = p ? p.stock : item.stock || 99;
+    const qty = Math.min(item.qty, stock);
+    return `
+    <div class="cart-item" data-id="${item.id}" style="animation-delay: ${idx * 0.06}s">
+      <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">${item.price.toFixed(2)} ₼</div>
+        ${stock <= 3 ? '<span class="stock-badge ' + (stock === 0 ? 'out' : 'low') + '">' + (stock === 0 ? 'Tükənib' : stock + ' qalıb') + '</span>' : ''}
+        <div class="cart-item-qty">
+          <button type="button" class="cart-qty-minus" data-id="${item.id}" aria-label="Azalt">−</button>
+          <span class="cart-item-qty-num">${qty}</span>
+          <button type="button" class="cart-qty-plus" data-id="${item.id}" data-max="${stock}" aria-label="Artır" ${qty >= stock ? ' disabled' : ''}>+</button>
+        </div>
+      </div>
+      <button type="button" class="cart-item-remove" data-id="${item.id}" aria-label="Sil">🗑</button>
+    </div>`;
+  }).join('');
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  footer.innerHTML = `
+    <div class="cart-total">Ümumi: ${total.toFixed(2)} ₼</div>
+    <div class="cart-free-ship">Pulsuz çatdırılma</div>
+    <button type="button" class="btn btn-primary" id="completeOrderBtn">Sifarişi Tamamla</button>
+    <button type="button" class="cart-clear" id="cartClearBtn">Səbəti Təmizlə</button>`;
+  footer.querySelector('#completeOrderBtn').addEventListener('click', completeOrder);
+  footer.querySelector('#cartClearBtn').addEventListener('click', () => { setCart([]); });
+  body.querySelectorAll('.cart-qty-minus').forEach(b => {
+    b.addEventListener('click', () => {
+      const id = parseInt(b.dataset.id, 10);
+      const cart = getCart();
+      const i = cart.findIndex(x => x.id === id);
+      if (i >= 0 && cart[i].qty > 1) { cart[i].qty--; setCart(cart); }
+      else if (i >= 0) { cart.splice(i, 1); setCart(cart); }
+    });
+  });
+  body.querySelectorAll('.cart-qty-plus').forEach(b => {
+    b.addEventListener('click', () => {
+      if (b.disabled) return;
+      const id = parseInt(b.dataset.id, 10);
+      const p = products.find(x => x.id === id);
+      const cart = getCart();
+      const i = cart.findIndex(x => x.id === id);
+      if (i >= 0 && p && cart[i].qty < p.stock) { cart[i].qty++; setCart(cart); }
+    });
+  });
+  body.querySelectorAll('.cart-item-remove').forEach(b => {
+    b.addEventListener('click', () => {
+      const cart = getCart().filter(x => x.id !== parseInt(b.dataset.id, 10));
+      setCart(cart);
+    });
+  });
+}
+
+function completeOrder() {
+  showToast('Sifariş üçün Instagram-da bizə yazın! Yönləndirilirsiniz... 📱', 'info');
+  setTimeout(() => { window.open(SOCIAL_LINKS.instagram, '_blank'); }, 1500);
+}
+
+function openModal(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const wishlist = getWishlist();
+  const inWl = wishlist.includes(p.id);
+  const details = p.details || {};
+  const detailRows = Object.entries(details).map(([k, v]) => '<li><span>' + k + '</span><span>' + v + '</span></li>').join('');
+  document.getElementById('modalInner').innerHTML = `
+    <div class="modal-image"><img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'"></div>
+    <div class="modal-details">
+      <h2>${p.name}</h2>
+      <div class="modal-rating">★ ${p.rating} (${p.reviews} rəy)</div>
+      <div class="modal-price">${p.price.toFixed(2)} ₼</div>
+      ${stockBadge(p)}
+      <p class="modal-desc">${p.description}</p>
+      <ul class="detail-list">${detailRows}</ul>
+      <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.5rem;">Kateqoriya: ${CATEGORIES.find(c=>c.id===p.category)?.label || p.category} | Çatdırılma: Pulsuz (24 saat) | Zəmanət: 12 ay</p>
+      <div class="qty-row">
+        <span>Miqdar:</span>
+        <div class="qty-controls">
+          <button type="button" class="modal-qty-minus" aria-label="Azalt">−</button>
+          <span class="modal-qty-num">1</span>
+          <button type="button" class="modal-qty-plus" data-max="${p.stock}" aria-label="Artır" ${p.stock <= 1 ? ' disabled' : ''}>+</button>
+        </div>
+        <span class="modal-qty-hint">(maks. ${p.stock} ədəd)</span>
+        <span class="modal-total">Cəmi: ${p.price.toFixed(2)} ₼</span>
+      </div>
+      <div class="modal-ctas">
+        <button type="button" class="btn btn-teal modal-add-cart" data-id="${p.id}" ${p.stock === 0 ? ' disabled' : ''}>Səbətə Əlavə Et</button>
+        <button type="button" class="btn btn-outline modal-wishlist" data-id="${p.id}">${inWl ? '♥ Wishlist-də' : '♡ Wishlist-ə Əlavə Et'}</button>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-social">
+        <a href="${SOCIAL_LINKS.instagram}" target="_blank" rel="noopener" class="btn btn-primary">Instagram-da Sifariş Ver</a>
+        <a href="${SOCIAL_LINKS.tiktok}" target="_blank" rel="noopener" class="btn btn-outline">TikTok-da İzlə</a>
+      </div>
+    </div>`;
+  const modalQty = document.querySelector('.modal-qty-num');
+  const modalTotal = document.querySelector('.modal-total');
+  const modalPlus = document.querySelector('.modal-qty-plus');
+  const modalMinus = document.querySelector('.modal-qty-minus');
+  let qty = 1;
+  function updateModalQty() {
+    qty = Math.max(1, Math.min(p.stock, qty));
+    modalQty.textContent = qty;
+    modalTotal.textContent = 'Cəmi: ' + (p.price * qty).toFixed(2) + ' ₼';
+    if (modalPlus) modalPlus.disabled = qty >= p.stock;
+    if (modalMinus) modalMinus.disabled = qty <= 1;
+  }
+  modalMinus.addEventListener('click', () => { qty--; updateModalQty(); });
+  modalPlus.addEventListener('click', () => { if (qty < p.stock) { qty++; updateModalQty(); } });
+  document.querySelector('.modal-add-cart').addEventListener('click', () => { addToCart(p.id, qty); });
+  document.querySelector('.modal-wishlist').addEventListener('click', () => { toggleWishlist(p.id); document.querySelector('.modal-wishlist').textContent = getWishlist().includes(p.id) ? '♥ Wishlist-də' : '♡ Wishlist-ə Əlavə Et'; });
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function showToast(message, type) {
+  const container = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast ' + (type || 'info');
+  el.innerHTML = '<i class="fas fa-info-circle"></i><span>' + message + '</span>';
+  container.appendChild(el);
+  setTimeout(() => { el.remove(); }, 3000);
+}
+
+// Filter pills
+CATEGORIES.forEach(c => {
+  const pill = document.createElement('button');
+  pill.type = 'button';
+  pill.className = 'pill' + (c.id === '' ? ' active' : '');
+  pill.dataset.cat = c.id;
+  pill.textContent = c.label;
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
+    pill.classList.add('active');
+    currentPage = 1;
+    renderProducts();
+  });
+  document.getElementById('filterPills').appendChild(pill);
+});
+
+// Sort
+const sortSelect = document.getElementById('sortSelect');
+SORT_OPTIONS.forEach(o => {
+  const opt = document.createElement('option');
+  opt.value = o.id;
+  opt.textContent = o.label;
+  sortSelect.appendChild(opt);
+});
+sortSelect.addEventListener('change', () => { currentPage = 1; renderProducts(); });
+document.getElementById('searchInput').addEventListener('input', () => { currentPage = 1; renderProducts(); });
+
+document.getElementById('viewGrid').addEventListener('click', () => { listView = false; document.getElementById('viewGrid').classList.add('active'); document.getElementById('viewList').classList.remove('active'); renderProducts(); });
+document.getElementById('viewList').addEventListener('click', () => { listView = true; document.getElementById('viewList').classList.add('active'); document.getElementById('viewGrid').classList.remove('active'); renderProducts(); });
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('productModal').addEventListener('click', (e) => { if (e.target.id === 'productModal') closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+document.getElementById('cartBtn').addEventListener('click', () => { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); });
+document.getElementById('cartClose').addEventListener('click', () => { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); });
+document.getElementById('cartOverlay').addEventListener('click', () => { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); });
+
+document.getElementById('wishlistBtn').addEventListener('click', () => {
+  document.getElementById('wishlistSidebar').classList.add('open');
+  document.getElementById('wishlistOverlay').classList.add('open');
+  renderWishlistSidebar();
+});
+document.getElementById('wishlistClose').addEventListener('click', () => {
+  document.getElementById('wishlistSidebar').classList.remove('open');
+  document.getElementById('wishlistOverlay').classList.remove('open');
+});
+document.getElementById('wishlistOverlay').addEventListener('click', () => {
+  document.getElementById('wishlistSidebar').classList.remove('open');
+  document.getElementById('wishlistOverlay').classList.remove('open');
+});
+
+// Custom cursor (desktop only)
+const dot = document.querySelector('.cursor-dot');
+const ring = document.querySelector('.cursor-ring');
+function initCursor() {
+  const isTouch = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (isTouch && dot && ring) { dot.style.display = 'none'; ring.style.display = 'none'; return; }
+  document.addEventListener('mousemove', (e) => {
+    if (dot) { dot.style.left = (e.clientX - 4) + 'px'; dot.style.top = (e.clientY - 4) + 'px'; }
+    if (ring) setTimeout(() => { ring.style.left = (e.clientX - 17) + 'px'; ring.style.top = (e.clientY - 17) + 'px'; }, 80);
+  });
+  document.querySelectorAll('a, button, .product-card').forEach(el => {
+    el.addEventListener('mouseenter', () => ring && ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring && ring.classList.remove('hover'));
+  });
+}
+initCursor();
+
+// Navbar scroll
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+
+// Mobile menu
+document.getElementById('hamburger').addEventListener('click', () => {
+  const links = document.querySelector('.nav-links');
+  links.classList.toggle('open');
+  const icon = document.querySelector('#hamburger i');
+  if (icon) icon.className = links.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+});
+
+// Promo bar
+document.body.classList.add('promo-visible');
+document.getElementById('promoBarClose').addEventListener('click', () => {
+  document.getElementById('promoBar').classList.add('hidden');
+  document.body.classList.remove('promo-visible');
+  try { localStorage.setItem('sayn_promo_closed', '1'); } catch (_) {}
+});
+try { if (localStorage.getItem('sayn_promo_closed')) { document.getElementById('promoBar').classList.add('hidden'); document.body.classList.remove('promo-visible'); } } catch (_) {}
+
+// Init
+renderProducts();
+updateCartUI();
+updateWishlistUI();
+</script>
